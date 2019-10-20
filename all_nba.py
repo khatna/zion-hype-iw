@@ -1,11 +1,13 @@
 import requests
+import csv
 from bs4 import BeautifulSoup
 
 # Table entry where we want to stop collecting data
 LIMIT = 120
 
 # Collect All-NBA history
-page = requests.get('https://www.basketball-reference.com/awards/all_league.html')
+page = requests.get(
+    'https://www.basketball-reference.com/awards/all_league.html')
 anba = BeautifulSoup(page.text, 'html.parser')
 
 pg_tbl = anba.find(id='awards_all_league')
@@ -19,3 +21,10 @@ for row in data:
         if col['data-stat'] in valid_keys:
             players.add(col.getText()[:-2])
 
+if '' in players:
+    players.remove('')
+
+# Prepare list of players who got All-NBA
+with open('./all_nba_list', 'w') as f:
+    for p in players:
+        f.write("%s\n" % p)
