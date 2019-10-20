@@ -9,7 +9,7 @@ def get_height(height):
     return str(int(l[0])*12+int(l[1]))
 
 class Player:
-    def __init__(self, name, pick):
+    def __init__(self, name, pick, age):
         self.stats = [name, pick]
         format_name = name.replace(' ', '-').replace("'", '').replace('.', '').lower()
         page = requests.get(baseurl + format_name + '-1.html')
@@ -17,6 +17,7 @@ class Player:
         soup = BeautifulSoup(html_doc, 'html.parser')
         try:
             # Fetch basic stats
+            err = 'statistics'
             basic_stats = soup.find(id='players_per_game')
             basic_stats = basic_stats.select('tbody tr')
             for stat in basic_stats[len(basic_stats) - 1]:
@@ -30,12 +31,14 @@ class Player:
                     self.stats.append(stat.getText())
 
             # Fetch physical measurements
+            err = 'metadata'
             metadata = soup.find(id="meta")
             [height, weight] = metadata.select('div p span')
             self.stats.append(get_height(height.getText()))
             self.stats.append(weight.getText()[:-2])
+            self.stats.append(age)
         except:
-            print('Difficulty finding player:', name)
+            print('Difficulty finding stats for:', name, ('(%s)' % err))
 
     def get_stats(self):
         return self.stats
