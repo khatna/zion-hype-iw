@@ -1,5 +1,4 @@
 import requests
-import csv
 from bs4 import BeautifulSoup
 
 # Table entry where we want to stop collecting data

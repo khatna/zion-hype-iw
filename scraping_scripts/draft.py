@@ -11,7 +11,7 @@ class Draft:
         draft = BeautifulSoup(page.text, 'html.parser')
 
         draft_tbl = draft.find(id='stats')
-        players_tbl = draft_tbl.select('tbody tr')[:32]
+        players_tbl = draft_tbl.select('tbody tr')[:20]
 
         players_pre = {}
         name = ''
