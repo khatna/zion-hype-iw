@@ -17,7 +17,7 @@ for p in database:
     else:
         p.append('0')
 
-with open('data.csv', 'w') as csvfile:
+with open('data_pre.csv', 'w') as csvfile:
     filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
     for p in database:
         filewriter.writerow(p)
